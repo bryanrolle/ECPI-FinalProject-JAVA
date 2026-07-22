@@ -1,9 +1,20 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
+	
+	private static ArrayList<Character> characters = new ArrayList<>();
+	private static ArrayList<Mission> missions = new ArrayList<>();
+	private static ArrayList<Item> items = new ArrayList<>();
+	
+	private static Character selectedCharacter;
+	private static Mission selectedMission;
+	private static Item selectedItem;
 
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
+		
+		addGameObjects();
 		
 		boolean running = true;
 		
@@ -23,15 +34,27 @@ public class Main {
 					startGame(input);
 					break;
 				
-				case 2:
-					viewInstructions(input);
-					break;
-				
+			/*	case 2:
+					chooseCharacter(input);
+					break; */
+					
 				case 3:
+					chooseMission(input);
+					break;
+					
+				case 4:
+					chooseItem(input);
+					break;
+					
+				case 5:
 					viewPlayerStats(input);
 					break;
 				
-				case 4:
+				case 6:
+					viewInstructions(input);
+					break;
+				
+				case 7:
 					System.out.println("\nThank you for playing!");
 					running = false;
 					break;
@@ -50,27 +73,161 @@ public class Main {
 	public static void displayMenu() {
 		System.out.println("\n======== MAIN MENU ===========");
 		System.out.println("1. Start Game");
-		System.out.println("2. View Instructions");
-		System.out.println("3. View Player Stats");
-		System.out.println("4. Exit");
+		System.out.println("2. Choose Character");
+		System.out.println("3. Choose Mission");
+		System.out.println("4. Choose Item");
+		System.out.println("5. View Player Stats");
+		System.out.println("6. View Instructions");
+		System.out.println("7. Exit");
 		System.out.println("=================================");
 		System.out.print("Enter your choice: ");
 	}
 	
 	public static int getMenuChoice(Scanner input) {
+		
+		int choice;
+		
+		while (true) {
+		
 		while (!input.hasNextInt()) {
-			System.out.println("Invalid input. Enter a number from 1 - 4");
+			System.out.println("Invalid input. Enter a number from 1 - 7");
 			input.nextLine();
-			System.out.print("Enter your choice: ");
+			//System.out.print("Enter your choice: ");
 		}
 		
-		int choice = input.nextInt();
+		choice = input.nextInt();
 		input.nextLine();
-		return choice;
+		
+		if (choice >= 1 && choice <= 7) {
+			return choice;
+			
+		}	
+		
+		System.out.print("Invalid choice. Enter a number from 1 - 7: ");
+	}
+		
+		
+}
+	
+	public static void chooseMission(Scanner input) {
+		
+		System.out.println("\n=========== CHOOSE MISSION ============");
+		
+		for (int i = 0; i < missions.size(); i++) {
+			
+			Mission mission = missions.get(i);
+			
+			System.out.println((i + 1) + ". " + mission.getMissionName());
+			
+			System.out.println("  " + mission.getDescription());
+			
+			System.out.println(" Reward: " + mission.getReward() + " points");
+		}
+		
+		System.out.print("Enter your choice: ");
+		
+		int choice = getListChoice(input, missions.size());
+		
+		selectedMission = missions.get(choice - 1);
+		
+		System.out.println("\n You selected " + selectedMission.getMissionName() + ".");
+		
+		pause(input);
+	} 
+	
+	public static void chooseItem(Scanner input) {
+		
+		System.out.println("\n ============= CHOOSE ITEM ============");
+		
+		for (int i = 0; i < items.size(); i++) {
+			
+			Item item = items.get(i);
+			
+			System.out.println("  " + item.getItemName());
+			
+			System.out.println("  " + item.getDescription());
+		}
+		
+		System.out.print("Enter your choice: ");
+		
+		int choice = getListChoice(input, items.size());
+		
+		selectedItem = items.get(choice - 1);
+		
+		System.out.println("\nYou selected " + selectedItem.getItemName() + ".");
+		
+		pause(input);
 	}
 	
+	public static int getListChoice(Scanner input, int numberOfOptions) {
+		
+		int choice;
+		
+		while (true) {
+			
+			while (!input.hasNextInt()) {
+				System.out.print("Invalid input. Enter a number 1 - " + numberOfOptions + ": ");
+				
+				input.nextLine();
+			}
+			
+			choice = input.nextInt();
+			input.nextLine();
+			
+			if (choice >= 1 && choice <= numberOfOptions) {
+				return choice;
+			}
+			
+			System.out.print("Invalid choice. Enter a number from 1 -" + numberOfOptions + ": ");
+		}
+	}
+
+	
 	public static void startGame(Scanner input) {
-		boolean gameMenuRunning = true;
+		
+		if (selectedCharacter == null) {
+			System.out.println("\nYou must choose a character first");
+			
+			pause(input);
+			return;
+		}
+		
+		if (selectedMission == null) {
+			System.out.println("\nYou must choose a mission first.");
+			
+			pause(input);
+			return;
+		}
+		
+		if (selectedItem == null) {
+			System.out.println("\nYou must choose an item first.");
+			
+			pause(input);
+			return;
+		}
+		
+		System.out.println("\n============ GAME STARTED ==============");
+		
+		System.out.println("Character: " + selectedCharacter.getName());
+		
+		System.out.println("Mission: " + selectedMission.getMissionName());
+		
+		System.out.println("Item: " + selectedItem.getItemName());
+		
+		System.out.println();
+		System.out.println(selectedCharacter.getName()
+				+ " begins the "
+				+ selectedMission.getMissionName()
+				+ " mission using a "
+				+ selectedItem.getItemName()
+				+ ".");
+		
+		System.out.println("\nMission completed!");
+		System.out.println("Points earned: " + selectedMission.getReward());
+		
+		pause(input);
+		
+		/* boolean gameMenuRunning = true;
 		
 		while(gameMenuRunning) {
 			System.out.println("\n============== GAME MENU ==============");
@@ -111,7 +268,7 @@ public class Main {
 					System.out.println("\nInvalid choice. Enter 1 - 4");
 			
 			}
-		}
+		} */
 	}
 	
 	public static int getGameMenuChoice(Scanner input) {
@@ -139,14 +296,66 @@ public class Main {
 	
 	public static void viewPlayerStats(Scanner input) {
 		System.out.println("\n============== PLAYER STATS ==============");
-		System.out.println("Player Name: New Player");
-		System.out.println("Health: 100");
-		System.out.println("Energy: 100");
-		System.out.println("Score: 0");
+		
+		if (selectedCharacter == null) {
+			System.out.println("Character: Not selected");
+		} else {
+			System.out.println("Character: " + selectedCharacter.getName());
+			
+			System.out.println("Health: " + selectedCharacter.getHealth());
+			
+			System.out.println("Energy: " + selectedCharacter.getEnergy());
+		}
+		
+		if (selectedMission == null) {
+			System.out.println("Mission: Not selected");
+		} else {
+			System.out.println("Mission: " + selectedMission.getMissionName());
+		}
+		
+		if (selectedItem == null) {
+			System.out.println("Item: Not selected");
+		} else {
+			System.out.println("Item: " + selectedItem.getItemName());
+		}
+		
 		System.out.println("=============================================");
 		
 		pause(input);
 	}
+	
+	public static void addGameObjects() {
+		
+		missions.add(new Mission(
+			"Forest Search",
+			"Search the forest for missing supplies",
+			20));
+		
+		missions.add(new Mission(
+				"Cave Exploration",
+				"Explore a dark cave and find treasure",
+				30));
+		
+		missions.add(new Mission(
+				"Village Defense",
+				"Protect the village from enemies",
+				40));
+		
+		items.add(new Item(
+				"Mighty Sword",
+				"Giant Sword that does a heavy strike"
+				));
+		
+		items.add(new Item(
+				"Magical Staff",
+				"Unique staff that casts spells"
+				));
+		
+		items.add(new Item(
+				"Mega Shotgun",
+				"Fires a powerful blast"
+				));
+		}
 	
 	public static void pause(Scanner input) {
 		System.out.print("\nPress Enter to continue");
