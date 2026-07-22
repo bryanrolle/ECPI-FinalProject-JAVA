@@ -123,7 +123,7 @@ public class Main {
 			System.out.println("   Energy:  " + character.getEnergy());
 			System.out.println("   Ability: " + character.getSpecialAbility());
 			System.out.println();
-		}
+		} 
 		
 		System.out.print("Enter your choice: ");
 		
@@ -138,7 +138,7 @@ public class Main {
 							+ ".");
 		
 		pause(input);
-	}
+	} 
 	
 	public static void chooseMission(Scanner input) {
 		
@@ -152,7 +152,7 @@ public class Main {
 			
 			System.out.println("  " + mission.getDescription());
 			
-			System.out.println(" Reward: " + mission.getReward() + " points");
+			System.out.println(" Reward: " + mission.getReward() + " gold");
 		}
 		
 		System.out.print("Enter your choice: ");
@@ -253,58 +253,20 @@ public class Main {
 				+ selectedItem.getItemName()
 				+ ".");
 		
+		
+		selectedCharacter.earnReward(50, selectedMission.getReward());
+		
 		System.out.println("\nMission completed!");
-		System.out.println("Points earned: " + selectedMission.getReward());
+		System.out.println("XP earned +50");
+		System.out.println("Gold earned: " + selectedMission.getReward());
 		
 		pause(input);
 		
-		/* boolean gameMenuRunning = true;
-		
-		while(gameMenuRunning) {
-			System.out.println("\n============== GAME MENU ==============");
-			System.out.println("1. Begin Mission");
-			System.out.println("2. Rest");
-			System.out.println("3. View Status");
-			System.out.println("4. Return to Main Menu");
-			System.out.println("=========================================");
-			System.out.print("Enter your choice: ");
-			
-			int choice = getGameMenuChoice(input);
-			
-			switch(choice) {
-				case 1:
-					System.out.println("\nYou begin a new mission!");
-					System.out.println("Mission completed");
-					pause(input);
-					break;
-					
-				case 2:
-					System.out.println("\nYou rest and recover energy");
-					pause(input);
-					break;
-					
-				case 3:
-					System.out.println("\nHealth; 100");
-					System.out.println("Energy: 100");
-					System.out.println("Score: 0");
-					pause(input);
-					break;
-					
-				case 4:
-					System.out.println("\nReturning to the main menu");
-					gameMenuRunning = false;
-					break;
-					
-				default:
-					System.out.println("\nInvalid choice. Enter 1 - 4");
-			
-			}
-		} */
 	}
 	
 	public static int getGameMenuChoice(Scanner input) {
 		while (!input.hasNextInt()) {
-			System.out.println("Invalid input. Enter a number from 1 - 4");
+			System.out.println("Invalid input. Enter a number from 1 - 7");
 			input.nextLine();
 			System.out.print("Enter your choice: ");
 		}
@@ -316,10 +278,10 @@ public class Main {
 	
 	public static void viewInstructions(Scanner input) {
 		System.out.println("\n============== INSTRUCTIONS ============");
-		System.out.println("1. Choose Start Game from the menu.");
-		System.out.println("2. Select missions and actions.");
-		System.out.println("3. Maintain your health and energy.");
-		System.out.println("4. Complete missions to earn points.");
+		System.out.println("1. Choose Character from the menu.");
+		System.out.println("2. Select Missions.");
+		System.out.println("3. Select Items.");
+		System.out.println("4. Complete Missions to earn gold and xp.");
 		System.out.println("===========================================");
 		
 		pause(input);
@@ -335,11 +297,15 @@ public class Main {
 			
 			System.out.println("Class: " + selectedCharacter.getCharacterType());
 			
+			System.out.println("Special Ability: " + selectedCharacter.getSpecialAbility());
+			
 			System.out.println("Health: " + selectedCharacter.getHealth());
 			
 			System.out.println("Energy: " + selectedCharacter.getEnergy());
 			
-			System.out.println("Special Ability: " + selectedCharacter.getSpecialAbility());
+			System.out.println("XP: " + selectedCharacter.getXp());
+			
+			System.out.println("Gold: " + selectedCharacter.getGold());
 		}
 		
 		if (selectedMission == null) {
