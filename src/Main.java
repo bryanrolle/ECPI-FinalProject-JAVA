@@ -34,9 +34,9 @@ public class Main {
 					startGame(input);
 					break;
 				
-			/*	case 2:
+				case 2:
 					chooseCharacter(input);
-					break; */
+					break; 
 					
 				case 3:
 					chooseMission(input);
@@ -108,6 +108,37 @@ public class Main {
 		
 		
 }
+	
+	public static void chooseCharacter(Scanner input) {
+		
+		System.out.println("\n============= CHOOSE CHARACTER ============");
+		
+		for (int i = 0; i < characters.size(); i++) {
+			
+			Character character = characters.get(i);
+			
+			System.out.println((i + 1) + ". " + character.getName());
+			System.out.println("   Class: " + character.getCharacterType());
+			System.out.println("   Health:  " + character.getHealth());
+			System.out.println("   Energy:  " + character.getEnergy());
+			System.out.println("   Ability: " + character.getSpecialAbility());
+			System.out.println();
+		}
+		
+		System.out.print("Enter your choice: ");
+		
+		int choice = getListChoice(input, characters.size());
+		
+		selectedCharacter = characters.get(choice - 1);
+		
+		System.out.println("\nYou selected " 
+							+ selectedCharacter.getName() 
+							+ " the "
+							+ selectedCharacter.getCharacterType()
+							+ ".");
+		
+		pause(input);
+	}
 	
 	public static void chooseMission(Scanner input) {
 		
@@ -300,11 +331,15 @@ public class Main {
 		if (selectedCharacter == null) {
 			System.out.println("Character: Not selected");
 		} else {
-			System.out.println("Character: " + selectedCharacter.getName());
+			System.out.println("Name: " + selectedCharacter.getName());
+			
+			System.out.println("Class: " + selectedCharacter.getCharacterType());
 			
 			System.out.println("Health: " + selectedCharacter.getHealth());
 			
 			System.out.println("Energy: " + selectedCharacter.getEnergy());
+			
+			System.out.println("Special Ability: " + selectedCharacter.getSpecialAbility());
 		}
 		
 		if (selectedMission == null) {
@@ -325,6 +360,24 @@ public class Main {
 	}
 	
 	public static void addGameObjects() {
+		
+		characters.add(new Warrior(
+				"Garen",
+				120,
+				80,
+				90));
+		
+		characters.add(new Mage(
+				"Veigar",
+				80,
+				120,
+				100));
+		
+		characters.add(new Ranger(
+				"Graves",
+				100,
+				100,
+				95));
 		
 		missions.add(new Mission(
 			"Forest Search",

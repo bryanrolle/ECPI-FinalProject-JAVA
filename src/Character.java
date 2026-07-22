@@ -24,7 +24,9 @@ public class Character {
 	}
 	
 	public void setHealth(int health) {
-		this.health = health;
+		if (health >= 0) {
+			this.health = health;
+		}
 	}
 	
 	public int getEnergy() {
@@ -32,7 +34,17 @@ public class Character {
 	}
 	
 	public void setEnergy(int energy) {
-		this.energy = energy;
+		if (energy >= 0) {
+			this.energy = energy;
+		}
+	}
+	
+	public String getCharacterType() {
+		return "Basic Character";
+	}
+	
+	public String getSpecialAbility() {
+		return "No special ability";
 	}
 
 }
